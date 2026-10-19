@@ -21,8 +21,7 @@ public class SlotsController : ControllerBase
     [HttpGet("validSlotes")] 
     [SwaggerOperation(Summary = "Get Avaliable Slots")]
     public async Task<IActionResult> GetAvailableSlots()
-    {
-        
+    {      
 
        try
         {

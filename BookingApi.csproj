@@ -8,11 +8,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\assets\index-CbZjT-CB.css" />
+    <Content Remove="wwwroot\assets\index-L-i6bj6D.js" />
+    <Content Remove="wwwroot\favicon.svg" />
+    <Content Remove="wwwroot\icons.svg" />
+    <Content Remove="wwwroot\images\clinics.jfif" />
+    <Content Remove="wwwroot\images\clinics\clinic2_1.jfif" />
+    <Content Remove="wwwroot\images\clinics\clinic2_2.jfif" />
+    <Content Remove="wwwroot\images\clinics\clinic2_3.jfif" />
+    <Content Remove="wwwroot\images\projects\project1.jfif" />
+    <Content Remove="wwwroot\images\projects\project2.jfif" />
+    <Content Remove="wwwroot\images\projects\project3.jfif" />
+    <Content Remove="wwwroot\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="appsettings.production.json.template" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="appsettings.template.json" />
+    <None Include="wwwroot\assets\index-CbZjT-CB.css" />
+    <None Include="wwwroot\assets\index-L-i6bj6D.js" />
+    <None Include="wwwroot\favicon.svg" />
+    <None Include="wwwroot\icons.svg" />
+    <None Include="wwwroot\images\clinics.jfif" />
+    <None Include="wwwroot\images\clinics\clinic2_1.jfif" />
+    <None Include="wwwroot\images\clinics\clinic2_2.jfif" />
+    <None Include="wwwroot\images\clinics\clinic2_3.jfif" />
+    <None Include="wwwroot\images\projects\project1.jfif" />
+    <None Include="wwwroot\images\projects\project2.jfif" />
+    <None Include="wwwroot\images\projects\project3.jfif" />
+    <None Include="wwwroot\index.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,7 +68,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Folder Include="frontend\src\services\" />
   </ItemGroup>
 
 </Project>

@@ -11,6 +11,8 @@
         public string businessname { get; set; } = string.Empty;
 
         public string clientname { get; set; } = string.Empty;
+        public string? ImageUrl { get; set; }
+
 
     }
 }
