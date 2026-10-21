@@ -14,7 +14,7 @@ using System.Text;
 public class AuthController : ControllerBase
 {
     private readonly AppDbContext _context;
-    private readonly IConfiguration _configuration;
+   private readonly IConfiguration _configuration;
 
     public AuthController(IConfiguration configuration , AppDbContext context)
     {

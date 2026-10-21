@@ -8,17 +8,38 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\assets\index-CbZjT-CB.css" />
-    <Content Remove="wwwroot\assets\index-L-i6bj6D.js" />
+    <Content Remove="wwwroot\assets\index-BqYx2n0N.js" />
+    <Content Remove="wwwroot\assets\index-Dh4saafH.css" />
     <Content Remove="wwwroot\favicon.svg" />
     <Content Remove="wwwroot\icons.svg" />
     <Content Remove="wwwroot\images\clinics.jfif" />
     <Content Remove="wwwroot\images\clinics\clinic2_1.jfif" />
     <Content Remove="wwwroot\images\clinics\clinic2_2.jfif" />
     <Content Remove="wwwroot\images\clinics\clinic2_3.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_ahmed.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_ali.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_aliya.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_halla.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_hassan.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_mohammed.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_mustafa.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_omar.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_samer.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_sara.jfif" />
+    <Content Remove="wwwroot\images\doctors\doctor_sondos.jfif" />
     <Content Remove="wwwroot\images\projects\project1.jfif" />
     <Content Remove="wwwroot\images\projects\project2.jfif" />
     <Content Remove="wwwroot\images\projects\project3.jfif" />
+    <Content Remove="wwwroot\images\specialty\Cardiology.png" />
+    <Content Remove="wwwroot\images\specialty\Dentistry.png" />
+    <Content Remove="wwwroot\images\specialty\Dermatology.png" />
+    <Content Remove="wwwroot\images\specialty\ENT.png" />
+    <Content Remove="wwwroot\images\specialty\Gynecology.png" />
+    <Content Remove="wwwroot\images\specialty\Internal.png" />
+    <Content Remove="wwwroot\images\specialty\Neurology.png" />
+    <Content Remove="wwwroot\images\specialty\Ophthalmology.png" />
+    <Content Remove="wwwroot\images\specialty\Orthopedics.png" />
+    <Content Remove="wwwroot\images\specialty\Pediatrics.png" />
     <Content Remove="wwwroot\index.html" />
   </ItemGroup>
 
@@ -28,17 +49,38 @@
 
   <ItemGroup>
     <None Include="appsettings.template.json" />
-    <None Include="wwwroot\assets\index-CbZjT-CB.css" />
-    <None Include="wwwroot\assets\index-L-i6bj6D.js" />
+    <None Include="wwwroot\assets\index-BqYx2n0N.js" />
+    <None Include="wwwroot\assets\index-Dh4saafH.css" />
     <None Include="wwwroot\favicon.svg" />
     <None Include="wwwroot\icons.svg" />
     <None Include="wwwroot\images\clinics.jfif" />
     <None Include="wwwroot\images\clinics\clinic2_1.jfif" />
     <None Include="wwwroot\images\clinics\clinic2_2.jfif" />
     <None Include="wwwroot\images\clinics\clinic2_3.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_ahmed.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_ali.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_aliya.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_halla.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_hassan.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_mohammed.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_mustafa.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_omar.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_samer.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_sara.jfif" />
+    <None Include="wwwroot\images\doctors\doctor_sondos.jfif" />
     <None Include="wwwroot\images\projects\project1.jfif" />
     <None Include="wwwroot\images\projects\project2.jfif" />
     <None Include="wwwroot\images\projects\project3.jfif" />
+    <None Include="wwwroot\images\specialty\Cardiology.png" />
+    <None Include="wwwroot\images\specialty\Dentistry.png" />
+    <None Include="wwwroot\images\specialty\Dermatology.png" />
+    <None Include="wwwroot\images\specialty\ENT.png" />
+    <None Include="wwwroot\images\specialty\Gynecology.png" />
+    <None Include="wwwroot\images\specialty\Internal.png" />
+    <None Include="wwwroot\images\specialty\Neurology.png" />
+    <None Include="wwwroot\images\specialty\Ophthalmology.png" />
+    <None Include="wwwroot\images\specialty\Orthopedics.png" />
+    <None Include="wwwroot\images\specialty\Pediatrics.png" />
     <None Include="wwwroot\index.html" />
   </ItemGroup>
 

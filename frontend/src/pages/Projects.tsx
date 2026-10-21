@@ -9,7 +9,7 @@ export default function ProjectsPage() {
       title="Our Partners"
       apiUrl={`${API_BASE_URL}api/clinics/allprojects`}
       viewId={1}
-      getLink={(id) => `/projects/${id}/clinics`}
+      getLink={(item) => `/projects/${item.id}/clinics`}
       emptyMessage="No projects found."
     />
   );

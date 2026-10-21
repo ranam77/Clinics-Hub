@@ -9,7 +9,7 @@ using Microsoft.Data.SqlClient;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Data;
 using System.Security.Cryptography;
-[Authorize]
+
 [ApiController]
 [Route("api/[controller]")]
 public class PatientsController : Controller
@@ -72,9 +72,8 @@ public class PatientsController : Controller
             _logger.LogError(ex, "Unexpected error while CreatePatient ");
             return StatusCode(500, new { success = false, message = "An unexpected error occurred." });
         }
-
     }
-
+    [Authorize]
     [HttpPost("bookings")]
     [SwaggerOperation(Summary = "Get Patient Current Bookings")]
     public async Task<IActionResult> GetPatientBookings([FromBody] PatientBookingRequest requesr)

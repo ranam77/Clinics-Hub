@@ -5,14 +5,17 @@ import ClinicCard from "./ClinicCard";
 interface ListingItem {
   id: number;
   name: string;
+  firstName?: string;
+  lastName?: string;
+  clinicName?: string;
+  specialtyName?: string;
   imageUrl?: string;
 }
-
 interface Props {
   title: string;
   apiUrl: string;
   viewId: number;
-  getLink: (id: number) => string;
+    getLink: (item: ListingItem) => string;
   emptyMessage?: string;
 }
 
@@ -31,15 +34,17 @@ export default function ListingPage({
     const controller = new AbortController();
     fetch(apiUrl, { signal: controller.signal })
       .then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`API Error: ${response.status}`);
-        }
+        if (response.status === 404) {
+          throw new Error("No Data Found");
+          }
+          if (!response.ok) {
+            throw new Error(`API Error: ${response.status}`);
+          }
         const contentType =
           response.headers.get("content-type") || "";
         if (!contentType.includes("application/json")) {
           throw new Error("The API did not return JSON.");
         }
-
         return response.json();
       })
       .then((data) => {
@@ -69,7 +74,7 @@ export default function ListingPage({
       {loading && <p>Loading...</p>}
 
       {error && (
-        <p className="error-message">{error}</p>
+         <p>{error}</p>
       )}
 
       {!loading && !error && items.length === 0 && (
@@ -85,7 +90,12 @@ export default function ListingPage({
               name: item.name,
               image: item.imageUrl,
               viewid: viewId,
-              link: getLink(item.id),
+              link: getLink(item) ,
+              firstName  : item.firstName,
+              lastName : item.lastName,
+              clinicName  : item.clinicName,
+              specialtyName  : item.specialtyName,
+              imageUrl : item.imageUrl
             }}
           />
         ))}

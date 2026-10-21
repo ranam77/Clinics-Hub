@@ -31,8 +31,7 @@ namespace BookingApi.Controllers
 
             try
             {
-                var connectionString =
-                    _configuration.GetConnectionString("DefaultConnection");
+                var connectionString = _configuration.GetConnectionString("DefaultConnection");
 
                 await using var connection =
                     new SqlConnection(connectionString);
@@ -49,6 +48,7 @@ namespace BookingApi.Controllers
 
                 while (await reader.ReadAsync())
                 {
+                    
                     var project = new ProjectResponse
                     {
                         Id = reader.GetInt32(reader.GetOrdinal("Id")),
@@ -138,6 +138,44 @@ namespace BookingApi.Controllers
                 {
                     message = "Error retrieving clinics."
                 });
+            }
+        }
+
+        [HttpGet("relatedspeciality/{clinicID:int}")]
+        [SwaggerOperation(Summary = "Get Specialities By Clinic  ID")]
+        public async Task<IActionResult> GetSpeciality(int ClinicID)
+        {
+            var Specialities = new List<Speciality>();
+            try
+            {
+                var connectionString =  _configuration.GetConnectionString("DefaultConnection");
+                await using var connection = new SqlConnection(connectionString);
+                await using var command = new SqlCommand("dbo.GetSpecialitiesByClinicId", connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@ClinicId", SqlDbType.Int).Value = ClinicID;
+                await connection.OpenAsync();
+                await using var reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    var sp = new Speciality
+                    {
+                        Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                        Name = reader.GetString(reader.GetOrdinal("Name")),
+                        ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? string.Empty : reader.GetString(reader.GetOrdinal("ImageUrl"))
+                    };
+                    Specialities.Add(sp);
+                }
+                return Ok(Specialities);
+            }
+            catch (SqlException ex)
+            {
+                _logger.LogError(ex, "Database error retrieving Specialities for clinic {ClinicID}.", ClinicID);
+                return StatusCode(500, new {message = "Database error retrieving Specialities for clinic ."});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrievingSpecialities for clinic {ClinicID}.", ClinicID);
+                return StatusCode(500, new{message = "Error retrieving clinics."});
             }
         }
     }

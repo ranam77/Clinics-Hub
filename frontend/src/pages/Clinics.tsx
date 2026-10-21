@@ -15,9 +15,8 @@ export default function ClinicsPage() {
     <ListingPage
       title="Clinic Branches"
       apiUrl={`${API_BASE_URL}api/clinics/relatedclinics/${projectId}`}
-      viewId={2}
-      getLink={(clinicId) =>`/clinics/${clinicId}/specialties`
-      }
+      viewId={2}      
+      getLink={(item) => `/Specialty/${item.id}`}
       emptyMessage="No clinics found."
     />
   );
