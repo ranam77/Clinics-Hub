@@ -1,4 +1,4 @@
-# Clinic Booking API
+# Clinics Hub
 
 An ASP.NET Core Web API for managing clinic bookings, patients, doctors, specialties, and appointments.
 
