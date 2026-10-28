@@ -28,58 +28,35 @@ namespace BookingApi.Controllers
         public async Task<IActionResult> GetAllProjects()
         {
             var projects = new List<ProjectResponse>();
-
             try
             {
                 var connectionString = _configuration.GetConnectionString("DefaultConnection");
-
-                await using var connection =
-                    new SqlConnection(connectionString);
-
-                await using var command =
-                    new SqlCommand("dbo.GetProjects", connection);
-
+                await using var connection = new SqlConnection(connectionString);
+                await using var command = new SqlCommand("dbo.GetProjects", connection);
                 command.CommandType = CommandType.StoredProcedure;
-
                 await connection.OpenAsync();
-
-                await using var reader =
-                    await command.ExecuteReaderAsync();
-
+                await using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
-                {
-                    
+                {                    
                     var project = new ProjectResponse
                     {
                         Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                        name = reader.GetString(reader.GetOrdinal("businessname")),
+                        name = reader.GetString(reader.GetOrdinal("Name")),
                         ImageUrl = reader.IsDBNull( reader.GetOrdinal("ImageUrl")) ? string.Empty  : reader.GetString(reader.GetOrdinal("ImageUrl"))
                     };
-
                     projects.Add(project);
                 }
-
                 return Ok(projects);
             }
             catch (SqlException ex)
             {
-                _logger.LogError(
-                    ex, "Database error retrieving projects.");
-
-                return StatusCode(500, new
-                {
-                    message = "Database error retrieving projects."
-                });
+                _logger.LogError(ex, "Database error retrieving projects.");
+                return StatusCode(500, new{message = "Database error retrieving projects."});            
             }
             catch (Exception ex)
             {
-                _logger.LogError(
-                    ex, "Error retrieving projects.");
-
-                return StatusCode(500, new
-                {
-                    message = "Error retrieving projects."
-                });
+                _logger.LogError(ex, "Error retrieving projects.");
+                return StatusCode(500, new {message = "Error retrieving projects."});
             }
         }
 

@@ -5,7 +5,7 @@
         public long Id { get; set; }
         public string firstName { get; set; } = string.Empty;
         public string lastName { get; set; } = string.Empty;
-        public string CLinicName { get; set; } = string.Empty;
+        public string clinicName { get; set; } = string.Empty;
         public string SpecialtyName { get; set; } = string.Empty;
         public string? ImageUrl { get; set; }
     }

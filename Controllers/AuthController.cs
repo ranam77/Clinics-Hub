@@ -1,8 +1,10 @@
 ﻿using BookingApi.Data;
 using BookingApi.DTOs;
+using BookingApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,7 +16,7 @@ using System.Text;
 public class AuthController : ControllerBase
 {
     private readonly AppDbContext _context;
-   private readonly IConfiguration _configuration;
+    private readonly IConfiguration _configuration;
 
     public AuthController(IConfiguration configuration , AppDbContext context)
     {
@@ -45,27 +47,24 @@ public class AuthController : ControllerBase
             new Claim(ClaimTypes.Name, request.username)
         };
 
-        var signingKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(key));
-
-        var credentials = new SigningCredentials(
-            signingKey, SecurityAlgorithms.HmacSha256);
-
+        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+        var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
             issuer: issuer,
             audience: audience,
             claims: claims,
             expires: DateTime.UtcNow.AddMinutes(30),
             signingCredentials: credentials);
-
         return Ok(new
         {
-            access_token = new JwtSecurityTokenHandler().WriteToken(token)
+            access_token = new JwtSecurityTokenHandler().WriteToken(token) 
         });
     }
     [HttpPost("token/patients")]
     public async Task<IActionResult> CreateTokenPatient([FromBody] CreateTokenRequest request)
     {
+        Patient patient = null;
+
         var key = _configuration["Jwt:Key"]!;
         var issuer = _configuration["Jwt:Issuer"]!;
         var audience = _configuration["Jwt:Audience"]!;
@@ -75,33 +74,68 @@ public class AuthController : ControllerBase
         command.CommandType = CommandType.StoredProcedure;
         command.Parameters.Add("@Username", SqlDbType.NVarChar, 256).Value = request.username;
         command.Parameters.Add("@PasswordHash", SqlDbType.VarChar, 32).Value = passwordHash;
+        var isExistParam = new SqlParameter("@IsExist", SqlDbType.Bit)
+        {
+            Direction = ParameterDirection.Output
+        };
+
+        command.Parameters.Add(isExistParam);
         await connection.OpenAsync();
-        var result = await command.ExecuteScalarAsync();
-        if (result == null || result == DBNull.Value)
+        await using (var reader = await command.ExecuteReaderAsync())
+        {
+            if (!await reader.ReadAsync())
+            {
+                await reader.CloseAsync();
+                return NotFound(new
+                {
+                    error = new
+                    {
+                        code = "USER_NOT_FOUND",
+                        message = "Enter correct username and password."
+                    }
+                });
+
+            }
+            patient = new Patient
+            {
+                Id = reader.GetInt64(reader.GetOrdinal("Id")),
+                firstName = reader.GetString(reader.GetOrdinal("firstName")),
+                lastName = reader.IsDBNull(reader.GetOrdinal("lastName"))? String.Empty: reader.GetString(reader.GetOrdinal("lastName"))
+            };
+        }
+        bool isExist = isExistParam.Value != DBNull.Value && (bool)isExistParam.Value;
+        if (!isExist)
         {
             return NotFound(new
             {
                 error = new
                 {
                     code = "USER_NOT_FOUND",
-                    message = "Enter Correct username and password."
+                    message = "Enter correct username and password."
                 }
             });
         }
-        var claims = new[] {new Claim(ClaimTypes.Name, request.username)};
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.Name, request.username)
+        };
+
         var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-        var credentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+        var credentials = new SigningCredentials( signingKey, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
             issuer: issuer,
             audience: audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(30),
+            expires: DateTime.UtcNow.AddMinutes(60),
             signingCredentials: credentials);
 
         return Ok(new
         {
-            access_token = new JwtSecurityTokenHandler().WriteToken(token)
+            access_token = new JwtSecurityTokenHandler().WriteToken(token),
+            p = patient,
         });
+ 
 
     }
     public static string GetMD5(string input)

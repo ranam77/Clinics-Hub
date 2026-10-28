@@ -13,8 +13,7 @@ type CardItem = {
   imageUrl?: string;
 };
 
-type Props = {item: CardItem;}; 
-
+type Props = {item: CardItem;};  
 export default function ClinicCard({ item }: Props) {
   const viewNames: Record<number, string> = {
     1: "Branches →",
@@ -26,9 +25,9 @@ export default function ClinicCard({ item }: Props) {
   return (
     <article className="project-card">
       <img
-  src={item.image || "/placeholder-clinic.svg"}
-  alt={item.name}
-  className="project-image"
+        src= { "/images/" + item.image  || "/placeholder-clinic.svg"}
+        alt={item.name}
+        className="project-image"
   style={{
     width: item.viewid === 4 ? "100px" : "300px",
     height: item.viewid === 4 ? "100px" : "300px",

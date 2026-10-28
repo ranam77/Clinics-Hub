@@ -15,7 +15,7 @@ interface Props {
   title: string;
   apiUrl: string;
   viewId: number;
-    getLink: (item: ListingItem) => string;
+  getLink: (item: ListingItem) => string;
   emptyMessage?: string;
 }
 

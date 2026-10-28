@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\assets\index-BqYx2n0N.js" />
-    <Content Remove="wwwroot\assets\index-Dh4saafH.css" />
+    <Content Remove="wwwroot\assets\index-C2XB_7pp.js" />
+    <Content Remove="wwwroot\assets\index-CUHNNdR_.css" />
     <Content Remove="wwwroot\favicon.svg" />
     <Content Remove="wwwroot\icons.svg" />
     <Content Remove="wwwroot\images\clinics.jfif" />
@@ -27,9 +27,9 @@
     <Content Remove="wwwroot\images\doctors\doctor_samer.jfif" />
     <Content Remove="wwwroot\images\doctors\doctor_sara.jfif" />
     <Content Remove="wwwroot\images\doctors\doctor_sondos.jfif" />
-    <Content Remove="wwwroot\images\projects\project1.jfif" />
-    <Content Remove="wwwroot\images\projects\project2.jfif" />
-    <Content Remove="wwwroot\images\projects\project3.jfif" />
+    <Content Remove="wwwroot\images\projects\alfa_clinics.png" />
+    <Content Remove="wwwroot\images\projects\care_clinics.png" />
+    <Content Remove="wwwroot\images\projects\healing_clinics.png" />
     <Content Remove="wwwroot\images\specialty\Cardiology.png" />
     <Content Remove="wwwroot\images\specialty\Dentistry.png" />
     <Content Remove="wwwroot\images\specialty\Dermatology.png" />
@@ -49,8 +49,8 @@
 
   <ItemGroup>
     <None Include="appsettings.template.json" />
-    <None Include="wwwroot\assets\index-BqYx2n0N.js" />
-    <None Include="wwwroot\assets\index-Dh4saafH.css" />
+    <None Include="wwwroot\assets\index-C2XB_7pp.js" />
+    <None Include="wwwroot\assets\index-CUHNNdR_.css" />
     <None Include="wwwroot\favicon.svg" />
     <None Include="wwwroot\icons.svg" />
     <None Include="wwwroot\images\clinics.jfif" />
@@ -68,9 +68,9 @@
     <None Include="wwwroot\images\doctors\doctor_samer.jfif" />
     <None Include="wwwroot\images\doctors\doctor_sara.jfif" />
     <None Include="wwwroot\images\doctors\doctor_sondos.jfif" />
-    <None Include="wwwroot\images\projects\project1.jfif" />
-    <None Include="wwwroot\images\projects\project2.jfif" />
-    <None Include="wwwroot\images\projects\project3.jfif" />
+    <None Include="wwwroot\images\projects\alfa_clinics.png" />
+    <None Include="wwwroot\images\projects\care_clinics.png" />
+    <None Include="wwwroot\images\projects\healing_clinics.png" />
     <None Include="wwwroot\images\specialty\Cardiology.png" />
     <None Include="wwwroot\images\specialty\Dentistry.png" />
     <None Include="wwwroot\images\specialty\Dermatology.png" />
@@ -111,6 +111,7 @@
 
   <ItemGroup>
     <Folder Include="frontend\src\services\" />
+    <Folder Include="wwwroot - Copy\" />
   </ItemGroup>
 
 </Project>

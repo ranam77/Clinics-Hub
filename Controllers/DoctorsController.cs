@@ -1,14 +1,8 @@
-﻿
-using BookingApi.Controllers;
-using BookingApi.Data;
-using BookingApi.DTOs;
-using BookingApi.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using BookingApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Data;
-using System.Security.Cryptography;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -44,7 +38,7 @@ public class DoctorsController : Controller
                         firstName = reader.GetString(reader.GetOrdinal("FirstName")),
                         lastName = reader.IsDBNull(reader.GetOrdinal("LastName")) ? null : reader.GetString(reader.GetOrdinal("LastName")),
                         SpecialtyName = reader.GetString(reader.GetOrdinal("SpecialtyName")),
-                        CLinicName = reader.GetString(reader.GetOrdinal("CLinicName")),
+                        clinicName = reader.GetString(reader.GetOrdinal("CLinicName")),
                         ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl")),
                     };
                 }
@@ -81,22 +75,28 @@ public class DoctorsController : Controller
             command.Parameters.Add("@SpID", SqlDbType.BigInt).Value = sp;
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
-            if (await reader.ReadAsync())
-            {               
+            while (await reader.ReadAsync())
+            {
+                Doctor doc = new Doctor
+                {
+                    Id = reader.GetInt64(reader.GetOrdinal("Id")),
+                    firstName = reader.GetString(reader.GetOrdinal("FirstName")),
 
-                    Doctor doc = new Doctor
-                    {
-                        Id = reader.GetInt64(reader.GetOrdinal("Id")),
-                        firstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                        lastName = reader.IsDBNull(reader.GetOrdinal("LastName")) ? null : reader.GetString(reader.GetOrdinal("LastName")),
-                        SpecialtyName = reader.GetString(reader.GetOrdinal("SpecialtyName")),
-                        CLinicName = reader.GetString(reader.GetOrdinal("CLinicName")),
-                        ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl")),
-                    };
-                    doctors.Add(doc);
-               
+                    lastName = reader.IsDBNull(reader.GetOrdinal("LastName"))
+                        ? null
+                        : reader.GetString(reader.GetOrdinal("LastName")),
+
+                    SpecialtyName = reader.GetString(reader.GetOrdinal("SpecialtyName")),
+                    clinicName = reader.GetString(reader.GetOrdinal("CLinicName")),
+
+                    ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl"))
+                        ? null
+                        : reader.GetString(reader.GetOrdinal("ImageUrl"))
+                };
+
+                doctors.Add(doc);
             }
-            if(doctors.Count() > 0)
+            if (doctors.Count() > 0)
                 return Ok(doctors);
             else
                 return NotFound();

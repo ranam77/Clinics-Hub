@@ -1,34 +1,29 @@
-import {
-  useState,
-  type ChangeEvent,
-  type SyntheticEvent,
-} from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import {useState,type ChangeEvent,type SyntheticEvent,} from "react";
+import { Link, useNavigate, useLocation , useSearchParams } from "react-router-dom";
 import "../styles/Auth.css";
-
+import type { patientSession } from "../services/api";
 type LoginResponse = {
   error?: {
     message?: string;
   };
-  access_token?: string;
+  p?: patientSession 
 };
- 
 
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
 
+
+const [searchParams] = useSearchParams();
+const sessionEnded = searchParams.get("sessionEnded") === "true";
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -59,39 +54,31 @@ function LoginPage() {
       );
 
       const result: LoginResponse = await response.json();
-
 if (!response.ok) {
   setError(result.error?.message || "Login failed. Please try again.");
   return;
 }
 
-if (!result.access_token) {
+if (!result.p?.access_token) {
   setError("Access token was not returned by the API.");
   return;
 }
 
-sessionStorage.setItem("access_token", result.access_token);
-sessionStorage.setItem("username", formData.username.trim());
-
+ const patient : patientSession = {
+  id: result.p.id,
+  f_name: result.p?.f_name,
+  l_name: result.p?.l_name,
+  username:  formData.username.trim(),
+  access_token: result.p.access_token,
+  isAuthenticated: true,
+};
+sessionStorage.setItem("patientSession", JSON.stringify(patient));
 window.dispatchEvent(new Event("auth-change"));
-
 const destination = location.state?.from || "/";
 navigate(destination, { replace: true });
-      
- 
-
-
-
-sessionStorage.setItem("access_token", result.access_token);
-
-
-      
-    } catch (err) {
+   } catch (err) {
       console.error("Login error:", err);
-
-      setError(
-        "Unable to connect to the server. Please check the API URL."
-      );
+      setError("Unable to connect to the server. Please check the API URL.");
     } finally {
       setLoading(false);
     }
@@ -135,7 +122,9 @@ sessionStorage.setItem("access_token", result.access_token);
               required
             />
           </div>
-
+          {sessionEnded && (
+            <p>Your session has expired. Please log in again.</p>
+          )}
           {error && (
             <p className="auth-error" role="alert">
               {error}

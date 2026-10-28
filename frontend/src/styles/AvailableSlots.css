@@ -1,0 +1,123 @@
+
+.available-slots {
+  width: 100%;
+  margin: 24px auto;
+  color: #1f3556;
+}
+
+.available-slots h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.slots-subtitle {
+  margin: 0 0 24px;
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.days-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(100%, 320px), 1fr)
+  );
+  gap: 20px;
+}
+
+.day-card {
+  min-width: 0;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgb(31 53 86 / 6%);
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.day-card:hover {
+  box-shadow: 0 8px 24px rgb(31 53 86 / 10%);
+  transform: translateY(-2px);
+}
+
+.day-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.calendar-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: #fff0e4;
+  border-radius: 10px;
+  font-size: 22px;
+}
+
+.day-card-header h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.day-card-header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.time-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.time-slot {
+  min-width: 0;
+  padding: 11px 4px;
+  border: 1px solid #1f3556;
+  border-radius: 8px;
+  background: #fff;
+  color: #1f3556;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.time-slot:hover {
+  background: #1f3556;
+  color: #fff;
+}
+
+.time-slot:focus-visible {
+  outline: 3px solid #f4a261;
+  outline-offset: 3px;
+}
+
+.slots-empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+}
+
+@media (max-width: 480px) {
+  .day-card {
+    padding: 16px;
+  }
+
+  .time-slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
