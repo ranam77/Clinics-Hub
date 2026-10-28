@@ -1,19 +1,15 @@
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../services/api";
+
+import { logout, getCurrentSession } from "../services/api";
 import type { patientSession } from "../services/api";
 
 function Header() {
   const navigate = useNavigate();
-
   const [patient, setPatient] = useState<patientSession | null>(() => {
-    const storedPatient = sessionStorage.getItem("patientSession");
-
-    if (!storedPatient) return null;
-
     try {
-      return JSON.parse(storedPatient) as patientSession;
+      return getCurrentSession();
     } catch {
       return null;
     }
@@ -21,26 +17,19 @@ function Header() {
 
   useEffect(() => {
     const updateAuth = () => {
-      const storedPatient = sessionStorage.getItem("patientSession");
-
-      if (!storedPatient) {
-        setPatient(null);
-        return;
-      }
-
       try {
-        setPatient(JSON.parse(storedPatient) as patientSession);
+        setPatient(getCurrentSession());
       } catch {
         setPatient(null);
       }
     };
 
     window.addEventListener("auth-change", updateAuth);
-
     return () => {
       window.removeEventListener("auth-change", updateAuth);
     };
   }, []);
+
 
   const handleLogout = () => {
     logout();

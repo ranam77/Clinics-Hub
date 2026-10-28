@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\assets\index-C2XB_7pp.js" />
+    <Content Remove="wwwroot\assets\index-CMsllmro.js" />
     <Content Remove="wwwroot\assets\index-CUHNNdR_.css" />
     <Content Remove="wwwroot\favicon.svg" />
     <Content Remove="wwwroot\icons.svg" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <None Include="appsettings.template.json" />
     <None Include="wwwroot\assets\index-C2XB_7pp.js" />
+    <None Include="wwwroot\assets\index-CMsllmro.js" />
     <None Include="wwwroot\assets\index-CUHNNdR_.css" />
     <None Include="wwwroot\favicon.svg" />
     <None Include="wwwroot\icons.svg" />

@@ -1,14 +1,8 @@
 import {useState,type ChangeEvent,type SyntheticEvent,} from "react";
 import { Link, useNavigate, useLocation , useSearchParams } from "react-router-dom";
 import "../styles/Auth.css";
-import type { patientSession } from "../services/api";
-type LoginResponse = {
-  error?: {
-    message?: string;
-  };
-  p?: patientSession 
-};
-
+import type { LoginResponse , patientSession ,  } from "../services/api";
+ 
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,26 +47,26 @@ const sessionEnded = searchParams.get("sessionEnded") === "true";
         }
       );
 
-      const result: LoginResponse = await response.json();
+const result: LoginResponse = await response.json();
 if (!response.ok) {
   setError(result.error?.message || "Login failed. Please try again.");
   return;
 }
-
-if (!result.p?.access_token) {
+  
+if (!result?.access_token) {
   setError("Access token was not returned by the API.");
   return;
 }
-
- const patient : patientSession = {
-  id: result.p.id,
-  f_name: result.p?.f_name,
-  l_name: result.p?.l_name,
-  username:  formData.username.trim(),
-  access_token: result.p.access_token,
+const currentsession : patientSession =
+{
+  id: result.p?.id,
+  f_name: result.p?.firstName,
+  l_name: result.p?.lastName,
+  username: result.p?.userName,
+  access_token: result.access_token,
   isAuthenticated: true,
-};
-sessionStorage.setItem("patientSession", JSON.stringify(patient));
+} 
+sessionStorage.setItem("patientSession", JSON.stringify(currentsession));
 window.dispatchEvent(new Event("auth-change"));
 const destination = location.state?.from || "/";
 navigate(destination, { replace: true });

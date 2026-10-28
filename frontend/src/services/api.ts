@@ -4,13 +4,31 @@ const API_BASE_URL = (
 ).replace(/\/$/, "");
 
  
+export interface Patient {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  passName: string;
+  phone: string;
+  email: string;
+  bookings: unknown[];
+}
+export interface LoginResponse {
+    error?: {
+    message?: string;
+  };
+  access_token?: string;
+  p?: Patient;
+}
+
 export interface patientSession {
-  id: number,
-  f_name: string ,
-  l_name:string,
-  username:  string ,
-  access_token: string,
-  isAuthenticated: boolean,
+  id?: number;
+  f_name? : string;
+  l_name? : string;
+  username? : string;
+  access_token?  : string;
+  isAuthenticated: boolean;
 }
 export function getCurrentSession(): patientSession | null {
   const storedPatient = sessionStorage.getItem("patientSession");
