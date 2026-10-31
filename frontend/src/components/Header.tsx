@@ -1,9 +1,8 @@
 
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { logout, getCurrentSession } from "../services/api";
-import type { patientSession } from "../services/api";
+import type { patientSession } from "../types/Patient";
 
 function Header() {
   const navigate = useNavigate();

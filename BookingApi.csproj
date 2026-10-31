@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\assets\index-BBjjs3_q.js" />
     <Content Remove="wwwroot\assets\index-C2XB_7pp.js" />
     <Content Remove="wwwroot\assets\index-CMsllmro.js" />
     <Content Remove="wwwroot\assets\index-CUHNNdR_.css" />
+    <Content Remove="wwwroot\assets\index-DTUVolid.js" />
+    <Content Remove="wwwroot\assets\index-hNDT_X5t.css" />
+    <Content Remove="wwwroot\assets\index-McfWlBWo.css" />
     <Content Remove="wwwroot\favicon.svg" />
     <Content Remove="wwwroot\icons.svg" />
     <Content Remove="wwwroot\images\clinics.jfif" />
@@ -50,9 +54,13 @@
 
   <ItemGroup>
     <None Include="appsettings.template.json" />
+    <None Include="wwwroot\assets\index-BBjjs3_q.js" />
     <None Include="wwwroot\assets\index-C2XB_7pp.js" />
     <None Include="wwwroot\assets\index-CMsllmro.js" />
     <None Include="wwwroot\assets\index-CUHNNdR_.css" />
+    <None Include="wwwroot\assets\index-DTUVolid.js" />
+    <None Include="wwwroot\assets\index-hNDT_X5t.css" />
+    <None Include="wwwroot\assets\index-McfWlBWo.css" />
     <None Include="wwwroot\favicon.svg" />
     <None Include="wwwroot\icons.svg" />
     <None Include="wwwroot\images\clinics.jfif" />

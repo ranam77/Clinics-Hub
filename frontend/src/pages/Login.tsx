@@ -1,7 +1,7 @@
 import {useState,type ChangeEvent,type SyntheticEvent,} from "react";
 import { Link, useNavigate, useLocation , useSearchParams } from "react-router-dom";
 import "../styles/Auth.css";
-import type { LoginResponse , patientSession ,  } from "../services/api";
+import type {   patientSession ,Patient  } from "../types/Patient";
  
 function LoginPage() {
   const navigate = useNavigate();
@@ -11,7 +11,13 @@ function LoginPage() {
     password: "",
   });
 
-
+interface LoginResponse {
+    error?: {
+    message?: string;
+  };
+  access_token?: string;
+  p?: Patient;
+}
 const [searchParams] = useSearchParams();
 const sessionEnded = searchParams.get("sessionEnded") === "true";
   const [error, setError] = useState("");
@@ -59,7 +65,7 @@ if (!result?.access_token) {
 }
 const currentsession : patientSession =
 {
-  id: result.p?.id,
+id: result.p?.id ? result.p.id : 0,
   f_name: result.p?.firstName,
   l_name: result.p?.lastName,
   username: result.p?.userName,

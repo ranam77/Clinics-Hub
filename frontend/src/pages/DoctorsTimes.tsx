@@ -1,8 +1,10 @@
 import "../styles/DoctorsTimes.css";
-import { getAvailableSlots, type AppointmentSlotRequest, type AppointmentSlot } from "../services/api";
-import { useEffect, useState } from "react";
+import { type AppointmentSlotRequest, type AppointmentSlot } from "../types/AppointmentSlot";
+import { bookSlot } from "../services/bookslotAPI";
+import { getAvailableSlots, } from "../services/api";
 import { getCurrentSession }  from "../services/api";
 import { Link ,useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ConfirmDialog from "../components/ConfirmDialog";
 import AvailableSlots from "../components/AvailableSlots";
 function DoctorsTimes() {
@@ -17,41 +19,36 @@ function DoctorsTimes() {
   const [slots, setSlots] = useState<AppointmentSlot[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
- const [showDialog, setShowDialog] = useState(false);
- const [selectedSlot, setSelectedSlot] =  useState<AppointmentSlot | null>(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedSlot, setSelectedSlot] =  useState<AppointmentSlot | null>(null);
+  const [bookingLoading, setBookingLoading] = useState(false);
+ const loadSlots = async (signal?: AbortSignal) => {
+  try {
+    setError("");
+    const request: AppointmentSlotRequest = {
+      DoctorID: Number(doctorId),
+      fromDate: new Date().toISOString(),
+      toDate: null,
+    };
 
- 
+    const data = await getAvailableSlots(request, signal);
+
+    if (!signal?.aborted) {
+      setSlots(data);
+    }
+  } catch (err: unknown) {
+    if (!signal?.aborted && err instanceof Error) {
+      setError(err.message);
+    }
+  }
+};
+  
 useEffect(() => {
   const controller = new AbortController();
-  async function fetchSlots() {
-    if (!getCurrentSession() || !getCurrentSession()?.isAuthenticated || !doctorId) {
-      setSlots([]);
-      setLoading(false);
-      return;
-    }
-
+  async function fetchInitialSlots() {
     setLoading(true);
-    setError("");
-
     try {
-      const request: AppointmentSlotRequest = {
-        DoctorID: 27,
-        fromDate: "2030-01-09T00:00:00",
-        toDate: "2030-01-16T00:00:00",
-      };
-
-      const data = await getAvailableSlots(
-        request,
-        controller.signal
-      );
-
-      if (!controller.signal.aborted) {
-        setSlots(data);
-      }
-    } catch (err: unknown) {
-      if (!controller.signal.aborted && err instanceof Error) {
-        setError(err.message);
-      }
+      await loadSlots(controller.signal);
     } finally {
       if (!controller.signal.aborted) {
         setLoading(false);
@@ -59,16 +56,10 @@ useEffect(() => {
     }
   }
 
-  fetchSlots();
+  fetchInitialSlots();
 
   return () => controller.abort();
 }, [doctorId]);
-
-
-
-
-
-
 
 const handleBooking = (slot: AppointmentSlot) => {
   setSelectedSlot(slot);
@@ -77,11 +68,29 @@ const handleBooking = (slot: AppointmentSlot) => {
 
 const confirmBooking = async () => {
   if (!selectedSlot) return;
-console.log("Selected Slot" , selectedSlot)
-  setShowDialog(false);
-  //todo
-};
+  if (!getCurrentSession()?.id) return;
+  try {
+    setBookingLoading(true);
+    const response = await bookSlot({
+      slotId: selectedSlot.id,  
+      patientId: getCurrentSession()?.id ?? 0,
+    });
 
+    console.log("Booking successful:", response);
+    setShowDialog(false);  
+    setSelectedSlot(null);
+    await loadSlots();
+  alert("Appointment booked successfully!");
+  } catch (error) {
+    alert(
+      error instanceof Error
+        ? error.message
+        : "Failed to book appointment."
+    );
+  } finally {
+    setBookingLoading(false);
+  }
+};
   return (
     <main className="doctor-page">
       <section className="doctor-profile">
@@ -150,47 +159,37 @@ console.log("Selected Slot" , selectedSlot)
           </div>
         </section>
       ) : 
-      (
-      
-<section className="booking-notice">
-  <div className="booking-notice-text">
-    {loading ? (
-      <p>Loading appointments...</p>
-    ) : error ? (
-      <p>{error}</p>
-    ) : (
-      <>
-        <AvailableSlots
-          slots={slots}
-          onBook={handleBooking}
-        />
-
-        <ConfirmDialog
-          isOpen={showDialog}
-          title="Confirm Appointment"
-          message={
-            selectedSlot
-              ? `Are you sure you want to book ${new Date(
-                  selectedSlot.startsAt
-                ).toLocaleString()}?`
-              : "Are you sure you want to book this appointment?"
-          }
-          confirmText="Confirm Booking"
-          cancelText="Cancel"
-          onConfirm={confirmBooking}
-          onCancel={() => {
-            setShowDialog(false);
-            setSelectedSlot(null);
-          }}
-        />
-      </>
-    )}
-  </div>
-</section>
-
-      )
-
-        }
+      (      
+    <section className="booking-notice">
+      <div className="booking-notice-text">
+        {loading ? (
+          <p>Loading appointments...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : (
+          <>
+            <AvailableSlots slots={slots}  onBook={handleBooking} />
+            <ConfirmDialog
+              isOpen={showDialog}
+              title="Confirm Appointment"
+              message={ selectedSlot
+                  ? `Are you sure you want to book ${new Date(selectedSlot.startsAt).toLocaleString()}?`
+                  : "Are you sure you want to book this appointment?"
+              }
+              confirmText="Confirm Booking"
+              cancelText="Cancel"
+              loading={bookingLoading}
+              onConfirm={confirmBooking}
+              onCancel={() => {
+                setShowDialog(false);
+                setSelectedSlot(null);
+              }}
+            />
+          </>
+        )}
+      </div>
+    </section>
+      )}
     </main>
   );
 }

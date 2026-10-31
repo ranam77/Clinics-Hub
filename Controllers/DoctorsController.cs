@@ -81,7 +81,6 @@ public class DoctorsController : Controller
                 {
                     Id = reader.GetInt64(reader.GetOrdinal("Id")),
                     firstName = reader.GetString(reader.GetOrdinal("FirstName")),
-
                     lastName = reader.IsDBNull(reader.GetOrdinal("LastName"))
                         ? null
                         : reader.GetString(reader.GetOrdinal("LastName")),

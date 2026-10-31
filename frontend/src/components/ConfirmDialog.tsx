@@ -1,9 +1,11 @@
+import "../styles/ConfirmDialog.css";
 
 interface ConfirmDialogProps {
   isOpen: boolean;
   title?: string;
   message: string;
   confirmText?: string;
+  loading?: boolean;
   cancelText?: string;
   onConfirm: () => void;
   onCancel: () => void;
@@ -12,7 +14,8 @@ interface ConfirmDialogProps {
 function ConfirmDialog({
   isOpen,
   title = "Confirm",
-  message,
+  message, 
+  loading = false,
   confirmText = "Confirm",
   cancelText = "Cancel",
   onConfirm,
@@ -26,19 +29,12 @@ function ConfirmDialog({
         className="confirm-dialog"
         role="alertdialog"
         aria-modal="true"
-        aria-labelledby="dialog-title"
-      >
+        aria-labelledby="dialog-title" >
         <h3 id="dialog-title">{title}</h3>
         <p>{message}</p>
-
         <div className="dialog-buttons">
-          <button type="button" onClick={onCancel}>
-            {cancelText}
-          </button>
-
-          <button type="button" onClick={onConfirm}>
-            {confirmText}
-          </button>
+          <button type="button" onClick={onCancel} disabled={loading} > {cancelText} </button>
+          <button type="button" onClick={onConfirm} disabled={loading} > {loading ? "Booking..." : confirmText} </button> 
         </div>
       </div>
     </div>

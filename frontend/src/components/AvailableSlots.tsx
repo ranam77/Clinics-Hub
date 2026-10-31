@@ -1,5 +1,5 @@
 import "../styles/AvailableSlots.css"; 
-import type { AppointmentSlot } from "../services/api";
+import type { AppointmentSlot } from "../types/AppointmentSlot";
 
 interface AvailableSlotsProps {
   slots: AppointmentSlot[];
