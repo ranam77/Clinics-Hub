@@ -32,7 +32,8 @@ An ASP.NET Core Web API for managing clinic bookings, patients, doctors, special
 2. Select an endpoint.
 3. Click **Try it out**.
 4. Enter the required request data.
-5. Click **Execute** to test the endpoint.
+5.  Use username : admin password:admin to generate tokens through: [ **Execute** to test the endpoint](http://alextechboxclinic.runasp.net/api/Auth/token/clients).
+6. Click **Execute** to test the endpoint.
 
 ## Website Status
 
