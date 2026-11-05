@@ -57,6 +57,9 @@ function Header() {
             >
               Log Out
             </button>
+            <Link to="/UsersAppointments" className="login-button">
+             Users Appointments
+            </Link>
           </>
         ) : (
           <>
@@ -67,6 +70,8 @@ function Header() {
             <Link to="/signup" className="login-button">
               Sign up
             </Link>
+
+             
           </>
         )}
 

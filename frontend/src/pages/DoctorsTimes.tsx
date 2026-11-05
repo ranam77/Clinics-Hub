@@ -57,7 +57,6 @@ useEffect(() => {
   }
 
   fetchInitialSlots();
-
   return () => controller.abort();
 }, [doctorId]);
 
@@ -71,12 +70,10 @@ const confirmBooking = async () => {
   if (!getCurrentSession()?.id) return;
   try {
     setBookingLoading(true);
-    const response = await bookSlot({
+     await bookSlot({
       slotId: selectedSlot.id,  
       patientId: getCurrentSession()?.id ?? 0,
-    });
-
-    console.log("Booking successful:", response);
+    }); 
     setShowDialog(false);  
     setSelectedSlot(null);
     await loadSlots();

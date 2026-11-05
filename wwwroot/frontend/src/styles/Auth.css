@@ -1,0 +1,117 @@
+
+/* Signup form only */
+.page-container form {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #ffffff;
+  border: 1px solid #e5eaf0;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(23, 45, 77, 0.08);
+  box-sizing: border-box;
+}
+
+/* First name and last name */
+.page-container .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Input groups */
+.page-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.page-container .form-group label {
+  color: #172d4d;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Input fields */
+.page-container .form-group input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d8dee8;
+  border-radius: 9px;
+  background: #fdfefe;
+  color: #172d4d;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Input focus */
+.page-container .form-group input:focus {
+  border-color: #f28c28;
+  box-shadow: 0 0 0 3px rgba(242, 140, 40, 0.12);
+}
+
+/* Placeholder */
+.page-container .form-group input::placeholder {
+  color: #a0a9b7;
+}
+
+/* Create account button */
+.page-container .auth-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 9px;
+  background: #172d4d;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.page-container .auth-button:hover {
+  background: #f28c28;
+  transform: translateY(-1px);
+}
+
+/* Error message */
+.page-container .auth-error {
+  margin: 0 0 16px;
+  color: #d32f2f;
+  font-size: 13px;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .page-container form {
+    padding: 22px 18px;
+  }
+
+  .page-container .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+
+.page-container .auth-footer {
+  margin: 22px 0 0;
+  text-align: center;
+  color: #68758a;
+  font-size: 14px;
+}
+
+.page-container .auth-footer a {
+  color: #e57c19;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.page-container .auth-footer a:hover {
+  text-decoration: underline;
+}
+

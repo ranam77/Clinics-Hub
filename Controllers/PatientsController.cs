@@ -120,14 +120,12 @@ public class PatientsController : Controller
                         endsAt = reader.GetDateTime(reader.GetOrdinal("EndsAt"))
                     },
 
-
                     doctor = new Doctor
                     {
                         Id = reader.GetInt64(reader.GetOrdinal("DoctorId")),
                         firstName = reader.GetString(reader.GetOrdinal("DoctorFirstName")),
                         lastName = reader.GetString(reader.GetOrdinal("DoctorLastName"))
                     },
-
                     clinic = new Clinic
                     {
                         Id = reader.GetInt32(reader.GetOrdinal("ClinicId")),
@@ -145,7 +143,7 @@ public class PatientsController : Controller
                 patient.Bookings = bookings;
             }
           
-            return Ok(patient);
+            return Ok(patient.Bookings);
         }
         catch (SqlException ex)
         {

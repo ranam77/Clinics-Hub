@@ -1,0 +1,44 @@
+.appointments-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 20px;
+}
+
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.appointments-table th,
+.appointments-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.appointments-table th {
+  background: #f4f4f4;
+}
+
+.cancel-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #b02a37;
+}
+
+.cancel-button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.error {
+  color: red;
+}

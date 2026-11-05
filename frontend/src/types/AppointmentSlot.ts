@@ -1,3 +1,6 @@
+import type { ListingItem } from "./ListingItem";
+
+
 export interface AppointmentSlotRequest {
   Cl_Sp_Id?: number;
   DoctorID?: number;
@@ -25,3 +28,15 @@ export interface BookSlotResponse {
   endsAt: string;
   booking: unknown[];
 }
+
+  export interface Booking {
+  id:number;
+  bookingRef: string;
+  clinic:ListingItem;
+  doctor:ListingItem;
+  speciality:ListingItem;
+  status:number;
+  slot:AppointmentSlot;
+}
+
+ 

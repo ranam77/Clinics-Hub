@@ -7,6 +7,7 @@ import Specialty  from "./pages/Specialty";
 import Signup from "./pages/Signup";
 import Doctors from "./pages/Doctors";
 import DoctorsTimes from "./pages/DoctorsTimes";
+import UsersAppointments from "./pages/UsersAppointments"
 import "./index.css";
 
 function App() {
@@ -17,12 +18,12 @@ function App() {
         <Route path="/" element={<Projects/>} />
         <Route path="/login" element={<Login/>} />
         <Route path="/projects/:projectId/clinics"  element={<Clinics/>}/>
-         <Route path="/Specialty/:ClId" element={<Specialty/>}/>
+        <Route path="/Specialty/:ClId" element={<Specialty/>}/>
         <Route path="/signup" element={<Signup/>} />
         <Route path="/Doctors/:ClId/:SpId" element={<Doctors/>} />
         <Route path="/DoctorsTimes/:Id" element={<DoctorsTimes/>} />
         <Route path="*" element={<Navigate to="/" replace />} />
-       
+        <Route path="/UsersAppointments" element={<UsersAppointments/>} />
       </Routes>
     </BrowserRouter>
   );
