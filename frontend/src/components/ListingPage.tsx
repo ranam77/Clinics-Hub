@@ -57,8 +57,8 @@ export default function ListingPage({
   }, [apiUrl]);
 
   return (
-    <main className="page-container">       
-        <div className="construction-flag"> 🚧 Under Construction </div>
+    <main className="page-container">      
+        
       <section className="page-heading">
         <h1>{title}</h1>
       </section>

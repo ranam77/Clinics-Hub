@@ -9,11 +9,13 @@ import Doctors from "./pages/Doctors";
 import DoctorsTimes from "./pages/DoctorsTimes";
 import UsersAppointments from "./pages/UsersAppointments"
 import "./index.css";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
+    <main className="main-content">
       <Routes>
         <Route path="/" element={<Projects/>} />
         <Route path="/login" element={<Login/>} />
@@ -25,6 +27,8 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
         <Route path="/UsersAppointments" element={<UsersAppointments/>} />
       </Routes>
+      </main>
+      <Footer />
     </BrowserRouter>
   );
 }

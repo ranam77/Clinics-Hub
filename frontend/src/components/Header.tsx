@@ -3,9 +3,12 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, getCurrentSession } from "../services/api";
 import type { patientSession } from "../types/Patient";
+import "../styles/Header.css";
+import logo from "../assets/logo.jfif";
 
 function Header() {
   const navigate = useNavigate();
+
   const [patient, setPatient] = useState<patientSession | null>(() => {
     try {
       return getCurrentSession();
@@ -13,6 +16,9 @@ function Header() {
       return null;
     }
   });
+
+  const [language, setLanguage] = useState<"en" | "ar">("en");
+  const isArabic = language === "ar";
 
   useEffect(() => {
     const updateAuth = () => {
@@ -24,11 +30,13 @@ function Header() {
     };
 
     window.addEventListener("auth-change", updateAuth);
-    return () => {
-      window.removeEventListener("auth-change", updateAuth);
-    };
+    return () => window.removeEventListener("auth-change", updateAuth);
   }, []);
 
+  useEffect(() => {
+    document.documentElement.dir = isArabic ? "rtl" : "ltr";
+    document.documentElement.lang = language;
+  }, [language, isArabic]);
 
   const handleLogout = () => {
     logout();
@@ -36,53 +44,81 @@ function Header() {
     navigate("/");
   };
 
+const toggleLanguage = () => {
+  setLanguage((prev) => {
+    const next = prev === "en" ? "ar" : "en";
+    window.dispatchEvent(new CustomEvent("language-change", {
+      detail: next
+    }));
+    return next;
+  });
+};
+
   return (
     <header className="header">
-      <Link to="/" className="logo">
-        <span className="logo-icon">+</span>
-        <span>Clinics Box</span>
-      </Link>
+      <div className="header-container">
 
-      <nav className="header-buttons">
-        {patient && patient.f_name ? (
-          <>
-            <span className="welcome-user">
-              Welcome, {patient.f_name} {patient.l_name}
-            </span>
+<div className="construction-flag"> 🚧 Under Construction </div>
+        <Link to="/" className="logo">
+          <img src={logo} alt="Clinics Hub" className="logo-image" />
+        </Link>
 
-            <button
-              type="button"
-              className="login-button"
-              onClick={handleLogout}
-            >
-              Log Out
-            </button>
-            <Link to="/UsersAppointments" className="login-button">
-             Users Appointments
+        <nav className="header-nav">
+          <Link to="/" className="nav-link">
+            {isArabic ? "الرئيسية" : "Home"}
+          </Link>
+
+          <Link to="/" className="nav-link">
+            {isArabic ? "العيادات" : "Clinics"}
+          </Link>
+          <Link to="/" className="nav-link">
+            {isArabic ? "التخصصات" : "Specializations"}
+          </Link>
+          {patient && (
+            <Link to="/UsersAppointments" className="nav-link">
+              {isArabic ? "مواعيدي" : "My Appointments"}
             </Link>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="login-button">
-              Login
-            </Link>
+          )}
+        </nav>
 
-            <Link to="/signup" className="login-button">
-              Sign up
-            </Link>
+        <div className="header-actions">
+          
 
-             
-          </>
-        )}
+          {patient && patient.f_name ? (
+            <>
+              <span className="welcome-user">
+                {isArabic ? `مرحباً، ${patient.f_name}` : `Welcome, ${patient.f_name}`}
+              </span>
 
-        <button
-          type="button"
-          className="login-button"
-          onClick={() => navigate(-1)}
-        >
-          ← Back
-        </button>
-      </nav>
+              <button
+                type="button"
+                className="nav-link"
+                onClick={handleLogout}
+              >
+                {isArabic ? "تسجيل الخروج" : "Log Out"}
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link">
+                {isArabic ? "دخول" : "Login"}
+              </Link>
+
+              <Link to="/signup" className="nav-link">
+                {isArabic ? "إنشاء حساب" : "Sign Up"}
+              </Link>
+            </>
+          )}
+          <button
+            type="button"
+            className="nav-link"
+            onClick={toggleLanguage}
+          >
+            {isArabic ? "English" : "العربية"}
+          </button>
+        </div>
+
+      </div>
     </header>
   );
 }

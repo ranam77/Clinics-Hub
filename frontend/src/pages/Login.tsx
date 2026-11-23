@@ -46,10 +46,12 @@ const sessionEnded = searchParams.get("sessionEnded") === "true";
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          body: JSON.stringify({
-            username: formData.username.trim(),
-            password: formData.password,
-          }),
+            
+
+            body: JSON.stringify({
+                username: formData.username.trim(),
+                password: formData.password,
+            }),
         }
       );
 

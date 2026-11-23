@@ -10,13 +10,16 @@
   <ItemGroup>
     <Content Remove="wwwroot\assets\index-B5_CqYLc.css" />
     <Content Remove="wwwroot\assets\index-BBjjs3_q.js" />
+    <Content Remove="wwwroot\assets\index-BtY1_SEj.js" />
     <Content Remove="wwwroot\assets\index-C2XB_7pp.js" />
     <Content Remove="wwwroot\assets\index-CMsllmro.js" />
     <Content Remove="wwwroot\assets\index-CUHNNdR_.css" />
     <Content Remove="wwwroot\assets\index-D8SfIhMc.js" />
+    <Content Remove="wwwroot\assets\index-DmTA96jW.css" />
     <Content Remove="wwwroot\assets\index-DTUVolid.js" />
     <Content Remove="wwwroot\assets\index-hNDT_X5t.css" />
     <Content Remove="wwwroot\assets\index-McfWlBWo.css" />
+    <Content Remove="wwwroot\assets\logo-Cjb8Gyne.jfif" />
     <Content Remove="wwwroot\favicon.svg" />
     <Content Remove="wwwroot\frontend\.env" />
     <Content Remove="wwwroot\frontend\.env.production" />
@@ -164,13 +167,16 @@
     <None Include="appsettings.template.json" />
     <None Include="wwwroot\assets\index-B5_CqYLc.css" />
     <None Include="wwwroot\assets\index-BBjjs3_q.js" />
+    <None Include="wwwroot\assets\index-BtY1_SEj.js" />
     <None Include="wwwroot\assets\index-C2XB_7pp.js" />
     <None Include="wwwroot\assets\index-CMsllmro.js" />
     <None Include="wwwroot\assets\index-CUHNNdR_.css" />
     <None Include="wwwroot\assets\index-D8SfIhMc.js" />
+    <None Include="wwwroot\assets\index-DmTA96jW.css" />
     <None Include="wwwroot\assets\index-DTUVolid.js" />
     <None Include="wwwroot\assets\index-hNDT_X5t.css" />
     <None Include="wwwroot\assets\index-McfWlBWo.css" />
+    <None Include="wwwroot\assets\logo-Cjb8Gyne.jfif" />
     <None Include="wwwroot\favicon.svg" />
     <None Include="wwwroot\frontend\.env" />
     <None Include="wwwroot\frontend\.env.production" />
@@ -337,7 +343,6 @@
 
   <ItemGroup>
     <Folder Include="frontend\src\services\" />
-    <Folder Include="wwwroot - Copy\" />
   </ItemGroup>
 
   <ItemGroup>
