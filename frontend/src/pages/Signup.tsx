@@ -1,6 +1,10 @@
+
 import "../styles/Auth.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, type ChangeEvent, type SyntheticEvent } from "react";
+
+import { useLanguage } from "../context/useLanguage";
+import { translations } from "../context/translations";
 
 type SignupResponse = {
   message?: string;
@@ -12,6 +16,9 @@ type SignupResponse = {
 
 function Signup() {
   const navigate = useNavigate();
+
+  const { language } = useLanguage();
+  const t = translations[language];
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -42,12 +49,12 @@ function Signup() {
     setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
+      setError(t.passwordMismatch);
       return;
     }
 
     if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError(t.passwordTooShort);
       return;
     }
 
@@ -81,8 +88,8 @@ function Signup() {
       ) {
         setError(
           result.message ||
-            result.Message ||
-            "Registration failed."
+          result.Message ||
+          t.registrationFailed
         );
         return;
       }
@@ -92,113 +99,137 @@ function Signup() {
           message:
             result.message ||
             result.Message ||
-            "Registration successful.",
+            (language === "ar"
+              ? "تم إنشاء الحساب بنجاح."
+              : "Registration successful."),
         },
       });
+
     } catch (err) {
       console.error("Registration error:", err);
+      setError(t.registrationError);
 
-      setError(
-        "Unable to connect to the server. Please check the API URL and try again."
-      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="page-container">
+    <main className="page-container" dir={t.dir}>
+
       <div className="construction-flag">
-        🚧 Under Construction
+        🚧 {t.underConstruction}
       </div>
 
       <section className="page-heading">
-        <h1>Create Account</h1>
+        <h1>{t.signupTitle}</h1>
+
         <p className="auth-subtitle">
-          Create your account to book your appointments.
+          {t.signupSubtitle}
         </p>
       </section>
 
       <section className="projects-grid">
         <form onSubmit={handleSubmit}>
+
           <div className="form-row">
+
             <div className="form-group">
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="firstName">
+                {t.firstName}
+              </label>
+
               <input
                 id="firstName"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
-                placeholder="First name"
+                placeholder={t.enterFirstName}
                 autoComplete="given-name"
                 required
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="lastName">Last Name</label>
+              <label htmlFor="lastName">
+                {t.lastName}
+              </label>
+
               <input
                 id="lastName"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
-                placeholder="Last name"
+                placeholder={t.enterLastName}
                 autoComplete="family-name"
                 required
               />
             </div>
+
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="email">
+              {t.email}
+            </label>
+
             <input
               id="email"
               name="email"
               type="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="you@example.com"
+              placeholder={t.enterEmail}
               autoComplete="email"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="phone">Phone Number</label>
+            <label htmlFor="phone">
+              {t.phone}
+            </label>
+
             <input
               id="phone"
               name="phone"
               type="tel"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="+966..."
+              placeholder={t.enterPhone}
               autoComplete="tel"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">
+              {t.username}
+            </label>
+
             <input
               id="username"
               name="username"
               value={formData.username}
               onChange={handleChange}
-              placeholder="Choose a username"
+              placeholder={t.chooseUsername}
               autoComplete="username"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">
+              {t.password}
+            </label>
+
             <input
               id="password"
               name="password"
               type="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="At least 8 characters"
+              placeholder={t.passwordMinLength}
               autoComplete="new-password"
               minLength={8}
               required
@@ -207,15 +238,16 @@ function Signup() {
 
           <div className="form-group">
             <label htmlFor="confirmPassword">
-              Confirm Password
+              {t.confirmPassword}
             </label>
+
             <input
               id="confirmPassword"
               name="confirmPassword"
               type="password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              placeholder="Repeat your password"
+              placeholder={t.repeatPassword}
               autoComplete="new-password"
               minLength={8}
               required
@@ -233,17 +265,20 @@ function Signup() {
             className="auth-button"
             disabled={loading}
           >
-            {loading ? "Creating Account..." : "Create Account"}
+            {loading ? t.creatingAccount : t.createAcc}
           </button>
 
           <p className="auth-footer">
-            Already have an account?{" "}
-            <Link to="/login">Log in</Link>
+            {t.alreadyHaveAccount}{" "}
+            <Link to="/login">
+              {t.login}
+            </Link>
           </p>
+
         </form>
       </section>
     </main>
   );
 }
 
-export default Signup; 
+export default Signup;

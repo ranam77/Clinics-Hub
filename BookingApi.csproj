@@ -10,8 +10,10 @@
   <ItemGroup>
     <Content Remove="wwwroot\assets\index-B5_CqYLc.css" />
     <Content Remove="wwwroot\assets\index-BBjjs3_q.js" />
+    <Content Remove="wwwroot\assets\index-Bgg8O-X1.css" />
     <Content Remove="wwwroot\assets\index-BtY1_SEj.js" />
     <Content Remove="wwwroot\assets\index-C2XB_7pp.js" />
+    <Content Remove="wwwroot\assets\index-CA3rdBP2.js" />
     <Content Remove="wwwroot\assets\index-CMsllmro.js" />
     <Content Remove="wwwroot\assets\index-CUHNNdR_.css" />
     <Content Remove="wwwroot\assets\index-D8SfIhMc.js" />
@@ -167,8 +169,10 @@
     <None Include="appsettings.template.json" />
     <None Include="wwwroot\assets\index-B5_CqYLc.css" />
     <None Include="wwwroot\assets\index-BBjjs3_q.js" />
+    <None Include="wwwroot\assets\index-Bgg8O-X1.css" />
     <None Include="wwwroot\assets\index-BtY1_SEj.js" />
     <None Include="wwwroot\assets\index-C2XB_7pp.js" />
+    <None Include="wwwroot\assets\index-CA3rdBP2.js" />
     <None Include="wwwroot\assets\index-CMsllmro.js" />
     <None Include="wwwroot\assets\index-CUHNNdR_.css" />
     <None Include="wwwroot\assets\index-D8SfIhMc.js" />

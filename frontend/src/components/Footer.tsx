@@ -1,28 +1,16 @@
 
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.jfif";
 import "../styles/Footer.css";
+import { useLanguage } from "../context/useLanguage";
+import { translations } from "../context/translations";
 
 function Footer() {
-  const [language, setLanguage] = useState<"en" | "ar">(
-    () => (document.documentElement.lang === "ar" ? "ar" : "en")
-  );
-
-  useEffect(() => {
-    const updateLanguage = (event: Event) => {
-      const customEvent = event as CustomEvent<"en" | "ar">;
-      setLanguage(customEvent.detail);
-    };
-
-    window.addEventListener("language-change", updateLanguage);
-    return () => window.removeEventListener("language-change", updateLanguage);
-  }, []);
-
-  const isArabic = language === "ar";
+  const { language } = useLanguage();
+  const t = translations[language];
 
   return (
-    <footer className="footer" dir={isArabic ? "rtl" : "ltr"}>
+    <footer className="footer" dir={t.dir}>
       <div className="footer-container">
 
         <div className="footer-column footer-brand">
@@ -30,44 +18,40 @@ function Footer() {
             <img src={logo} alt="Clinics Hub" />
           </Link>
 
-          <p>
-            {isArabic
-              ? "صحتك أولويتنا. اكتشف أفضل العيادات واحجز موعدك بسهولة."
-              : "Your Health. Our Priority. Find the right clinic and book your appointment easily."}
-          </p>
+          <p>{t.footerquote}</p>
         </div>
 
         <div className="footer-column">
-          <h3>{isArabic ? "عن Clinics Hub" : "About Clinics Hub"}</h3>
-          <Link to="/">{isArabic ? "من نحن" : "About Us"}</Link>
-          <Link to="/">{isArabic ? "رؤيتنا" : "Our Vision"}</Link>
-          <Link to="/">{isArabic ? "اتصل بنا" : "Contact Us"}</Link>
+          <h3>{t.about}</h3>
+          <Link to="/">{t.whoweare}</Link>
+          <Link to="/">{t.vision}</Link>
+          <Link to="/">{t.callus}</Link>
         </div>
 
         <div className="footer-column">
-          <h3>{isArabic ? "ابحث عن طريق" : "Find By"}</h3>
-          <Link to="/">{isArabic ? "التخصص" : "Specialty"}</Link>
-          <Link to="/">{isArabic ? "العيادات" : "Clinics"}</Link>
-          <Link to="/">{isArabic ? "الأطباء" : "Doctors"}</Link>
-          <Link to="/">{isArabic ? "الموقع" : "Location"}</Link>
+          <h3>{t.findby}</h3>
+          <Link to="/">{t.specializations}</Link>
+          <Link to="/">{t.clinics}</Link>
+          <Link to="/">{t.doctors}</Link>
+          <Link to="/">{t.location}</Link>
         </div>
 
         <div className="footer-column">
-          <h3>{isArabic ? "حسابك" : "Your Account"}</h3>
-          <Link to="/login">{isArabic ? "تسجيل الدخول" : "Login"}</Link>
-          <Link to="/signup">{isArabic ? "إنشاء حساب" : "Create Account"}</Link>
+          <h3>{t.yourAcc}</h3>
+          <Link to="/login">{t.login}</Link>
+          <Link to="/signup">{t.createAcc}</Link>
           <Link to="/UsersAppointments">
-            {isArabic ? "مواعيدي" : "My Appointments"}
+            {t.myAppointments}
           </Link>
         </div>
 
         <div className="footer-column">
-          <h3>{isArabic ? "تحتاج للمساعدة؟" : "Need Help?"}</h3>
+          <h3>{t.needHelp}</h3>
           <a href="mailto:info@clinicshub.com">
-            {isArabic ? "اتصل بنا" : "Contact Support"}
+            {t.contactSupport}
           </a>
-          <Link to="/">{isArabic ? "شروط الاستخدام" : "Terms of Use"}</Link>
-          <Link to="/">{isArabic ? "سياسة الخصوصية" : "Privacy Policy"}</Link>
+          <Link to="/">{t.terms}</Link>
+          <Link to="/">{t.policy}</Link>
         </div>
 
       </div>
@@ -80,8 +64,7 @@ function Footer() {
         </div>
 
         <p>
-          © {new Date().getFullYear()} Clinics Hub.
-          {isArabic ? " جميع الحقوق محفوظة." : " All rights reserved."}
+          © {new Date().getFullYear()} Clinics Hub. {t.rights}
         </p>
       </div>
     </footer>

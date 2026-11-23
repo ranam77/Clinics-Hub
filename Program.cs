@@ -70,8 +70,6 @@ app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapControllers();
-// Serve the React app for frontend routes,
-// but don't redirect API or Swagger requests to index.html.
 app.MapFallbackToFile("{*path:nonfile}", "index.html");
 
 using (var scope = app.Services.CreateScope())

@@ -1,62 +1,54 @@
 
-import { useState, useEffect } from "react";
+import { useLanguage } from "../context/useLanguage";
+import { translations } from "../context/translations";
 import "../styles/SearchBar.css";
 
 function SearchBar() {
-  const [language, setLanguage] = useState<"en" | "ar">(
-    () => document.documentElement.lang === "ar" ? "ar" : "en"
-  );
-
-  useEffect(() => {
-    const updateLanguage = (event: Event) => {
-      const customEvent = event as CustomEvent<"en" | "ar">;
-      setLanguage(customEvent.detail);
-    };
-
-    window.addEventListener("language-change", updateLanguage);
-    return () => window.removeEventListener("language-change", updateLanguage);
-  }, []);
-
+  const { language } = useLanguage();
+  const t = translations[language];
   const isArabic = language === "ar";
 
-  return ( 
-    <section className="search-section" dir={isArabic ? "rtl" : "ltr"}>
-      
+  return (
+    <section
+      className="search-section"
+      dir={isArabic ? "rtl" : "ltr"}
+    >
       <div className="search-container">
+
         <div className="search-field">
-          <label>{isArabic ? "التخصص" : "Specialty"}</label>
+          <label>{t.specializations}</label>
           <input
             type="text"
-            placeholder={isArabic ? "اختاري التخصص" : "Choose specialty"}
+            placeholder={t.chooseSpecialty}
           />
         </div>
 
         <div className="search-field">
-          <label>{isArabic ? "المدينة" : "City"}</label>
+          <label>{t.city}</label>
           <input
             type="text"
-            placeholder={isArabic ? "اختاري المدينة" : "Choose city"}
+            placeholder={t.chooseCity}
           />
         </div>
 
         <div className="search-field">
-          <label>{isArabic ? "الحي" : "District"}</label>
+          <label>{t.district}</label>
           <input
             type="text"
-            placeholder={isArabic ? "اختاري الحي" : "Choose district"}
+            placeholder={t.chooseDistrict}
           />
         </div>
 
         <div className="search-field doctor-field">
-          <label>{isArabic ? "اسم الطبيب أو العيادة" : "Doctor or Clinic"}</label>
+          <label>{t.doctorOrClinic}</label>
           <input
             type="text"
-            placeholder={isArabic ? "اكتبي الاسم" : "Enter name"}
+            placeholder={t.enterName}
           />
         </div>
 
         <button type="button" className="search-submit">
-          {isArabic ? "ابحث" : "Search"}
+          {t.search}
         </button>
 
       </div>

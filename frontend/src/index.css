@@ -313,4 +313,30 @@ grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   color: white;
 }
 
+.language-switcher {
+  background: #087F5B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.language-switcher:hover {
+  background: #16A36A;
+}
+
+/* Arabic typography */
+[dir="rtl"] {
+  font-family: "Tahoma", "Arial", sans-serif;
+}
+
+/* Keep form inputs aligned correctly */
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  text-align: right;
+}
+
 }

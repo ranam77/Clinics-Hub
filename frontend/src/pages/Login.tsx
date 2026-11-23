@@ -1,29 +1,46 @@
-import {useState,type ChangeEvent,type SyntheticEvent,} from "react";
-import { Link, useNavigate, useLocation , useSearchParams } from "react-router-dom";
+
+import {
+  useState,
+  type ChangeEvent,
+  type SyntheticEvent,
+} from "react";
+
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import "../styles/Auth.css";
-import type {   patientSession ,Patient  } from "../types/Patient";
- 
-function LoginPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+
+import type { patientSession, Patient } from "../types/Patient";
+import { useLanguage } from "../context/useLanguage";
+import { translations } from "../context/translations";
 
 interface LoginResponse {
-    error?: {
+  error?: {
     message?: string;
   };
   access_token?: string;
   p?: Patient;
 }
-const [searchParams] = useSearchParams();
-const sessionEnded = searchParams.get("sessionEnded") === "true";
+
+function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { language } = useLanguage();
+  const t = translations[language];
+
+  const [searchParams] = useSearchParams();
+  const sessionEnded = searchParams.get("sessionEnded") === "true";
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -46,87 +63,108 @@ const sessionEnded = searchParams.get("sessionEnded") === "true";
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-            
-
-            body: JSON.stringify({
-                username: formData.username.trim(),
-                password: formData.password,
-            }),
+          body: JSON.stringify({
+            username: formData.username.trim(),
+            password: formData.password,
+          }),
         }
       );
 
-const result: LoginResponse = await response.json();
-if (!response.ok) {
-  setError(result.error?.message || "Login failed. Please try again.");
-  return;
-}
-  
-if (!result?.access_token) {
-  setError("Access token was not returned by the API.");
-  return;
-}
-const currentsession : patientSession =
-{
-id: result.p?.id ? result.p.id : 0,
-  f_name: result.p?.firstName,
-  l_name: result.p?.lastName,
-  username: result.p?.userName,
-  access_token: result.access_token,
-  isAuthenticated: true,
-} 
-sessionStorage.setItem("patientSession", JSON.stringify(currentsession));
-window.dispatchEvent(new Event("auth-change"));
-const destination = location.state?.from || "/";
-navigate(destination, { replace: true });
-   } catch (err) {
+      const result: LoginResponse = await response.json();
+
+      if (!response.ok) {
+        setError(result.error?.message || t.loginFailed);
+        return;
+      }
+
+      if (!result?.access_token) {
+        setError(t.tokenMissing);
+        return;
+      }
+
+      const currentsession: patientSession = {
+        id: result.p?.id ? result.p.id : 0,
+        f_name: result.p?.firstName,
+        l_name: result.p?.lastName,
+        username: result.p?.userName,
+        access_token: result.access_token,
+        isAuthenticated: true,
+      };
+
+      sessionStorage.setItem(
+        "patientSession",
+        JSON.stringify(currentsession)
+      );
+
+      window.dispatchEvent(new Event("auth-change"));
+
+      const destination = location.state?.from || "/";
+      navigate(destination, { replace: true });
+
+    } catch (err) {
       console.error("Login error:", err);
-      setError("Unable to connect to the server. Please check the API URL.");
+      setError(t.connectionError);
+
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="page-container">
+    <main className="page-container" dir={t.dir}>
+
       <section className="page-heading">
-        <h1>Welcome Back</h1>
+        <h1>{t.welcomeBack}</h1>
+
         <p className="auth-subtitle">
-          Log in to manage your clinic appointments.
+          {t.loginSubtitle}
         </p>
       </section>
 
       <section className="projects-grid">
+
         <form onSubmit={handleSubmit}>
+
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">
+              {t.username}
+            </label>
+
             <input
               id="username"
               name="username"
               type="text"
               value={formData.username}
               onChange={handleChange}
-              placeholder="Enter your username"
+              placeholder={t.enterUsername}
               autoComplete="username"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">
+              {t.password}
+            </label>
+
             <input
               id="password"
               name="password"
               type="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
+              placeholder={t.enterPassword}
               autoComplete="current-password"
               required
             />
           </div>
+
           {sessionEnded && (
-            <p>Your session has expired. Please log in again.</p>
+            <p>
+              {t.sessionExpired}
+            </p>
           )}
+
           {error && (
             <p className="auth-error" role="alert">
               {error}
@@ -138,17 +176,21 @@ navigate(destination, { replace: true });
             className="auth-button"
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Log In"}
+            {loading ? t.loggingIn : t.login}
           </button>
+
         </form>
 
         <p className="auth-footer">
-          Don't have an account?{" "}
-          <Link to="/signup">Create Account</Link>
+          {t.dontHaveAccount}{" "}
+          <Link to="/signup">
+            {t.createAcc}
+          </Link>
         </p>
+
       </section>
     </main>
   );
 }
 
-export default LoginPage; 
+export default LoginPage;
