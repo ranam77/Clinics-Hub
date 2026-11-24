@@ -1,5 +1,6 @@
 using BookingApi.Data;
 using BookingApi.Exceptions;
+using BookingApi.Services.Location;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -25,7 +26,7 @@ builder.Services.AddSwaggerGen(c =>
     });
     c.EnableAnnotations();
 });
- 
+
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is missing.");
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -45,9 +46,11 @@ builder.Services
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddHttpClient<IpGeolocationService>();
 var allowedOrigins = builder.Configuration
     .GetSection("Cors:AllowedOrigins")
     .Get<string[]>() ?? Array.Empty<string>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -58,7 +61,6 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
-
 var app = builder.Build();
 app.UseExceptionHandler();
 app.UseDefaultFiles();

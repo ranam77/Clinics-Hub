@@ -78,6 +78,8 @@ export const translations = {
   chooseDistrict:"chooseDistrict",
   doctorOrClinic:"doctorOrClinic",
   enterName:"Name",
+    doctor:"Doctor",
+  clinic:"Clinic",
   },
   ar: {
     loading: "جاري التحميل...",
@@ -157,6 +159,8 @@ export const translations = {
   chooseDistrict:"إختر الحي",
   doctorOrClinic:"العيادة او الطبيب",
   enterName:"الإسم",
+  doctor:"الدكتور",
+  clinic:"العيادة",
   },  
 };
 

@@ -40,13 +40,19 @@ function SearchBar() {
         </div>
 
         <div className="search-field doctor-field">
-          <label>{t.doctorOrClinic}</label>
+          <label>{t.doctor}</label>
           <input
             type="text"
             placeholder={t.enterName}
           />
         </div>
-
+        <div className="search-field doctor-field">
+          <label>{t.clinic}</label>
+          <input
+            type="text"
+            placeholder={t.enterName}
+          />
+        </div>
         <button type="button" className="search-submit">
           {t.search}
         </button>

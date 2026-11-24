@@ -1,8 +1,10 @@
 ﻿using BookingApi.Models;
+using BookingApi.Services.Location;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Data;
+using System.Net;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -10,10 +12,12 @@ public class DoctorsController : Controller
 {
     private readonly IConfiguration _configuration;
     private readonly ILogger<PatientsController> _logger;
-    public DoctorsController(IConfiguration configuration, ILogger<PatientsController> logger)
+    private readonly IpGeolocationService _geoService;
+    public DoctorsController(IConfiguration configuration, ILogger<PatientsController> logger, IpGeolocationService _geoService)
     {
         _configuration = configuration;
         _logger = logger;
+        _geoService = _geoService;
     }
 
     [HttpGet("get/{doctorID:long}")]
@@ -23,11 +27,15 @@ public class DoctorsController : Controller
         Doctor doc = null;
         try
         {
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var countryCode = string.IsNullOrWhiteSpace(ip) || IPAddress.IsLoopback(HttpContext.Connection.RemoteIpAddress!) ? "SA"
+                : await _geoService.GetCountryCodeAsync(ip);
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             await using var connection = new SqlConnection(connectionString);
             await using var command = new SqlCommand("dbo.GetDoctorDeatils", connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@DoctorID", SqlDbType.BigInt).Value = doctorID;
+            command.Parameters.Add("@CountryCode", SqlDbType.NVarChar).Value = countryCode;
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
@@ -66,6 +74,9 @@ public class DoctorsController : Controller
     {
         try
         {
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString();
+            var countryCode = string.IsNullOrWhiteSpace(ip) || IPAddress.IsLoopback(HttpContext.Connection.RemoteIpAddress!) ? "SA"
+                : await _geoService.GetCountryCodeAsync(ip);
             List<Doctor> doctors = new List<Doctor>();
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
             await using var connection = new SqlConnection(connectionString);
@@ -73,6 +84,7 @@ public class DoctorsController : Controller
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@ClinicID", SqlDbType.BigInt).Value = cl;
             command.Parameters.Add("@SpID", SqlDbType.BigInt).Value = sp;
+            command.Parameters.Add("@CountryCode", SqlDbType.NVarChar).Value = countryCode;
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
