@@ -1,6 +1,7 @@
 ﻿namespace BookingApi.Services.Location
 {
     using System.Text.Json;
+    using System.Text.Json.Serialization;
 
     public class IpGeolocationService
     {
@@ -20,7 +21,7 @@
                 if (!response.IsSuccessStatusCode)
                     return null;
 
-                var result = await response.Content.ReadFromJsonAsync<IpResponse>();
+                var result = await response.Content.ReadFromJsonAsync<IpGeolocationResponse>();
 
                 return result?.Success == true? result.CountryCode?.ToUpperInvariant() : null;
             }
@@ -30,10 +31,14 @@
             }
         }
 
-        private class IpResponse
-        {
-            public bool Success { get; set; }
-            public string? CountryCode { get; set; }
-        }
+ 
+
+public class IpGeolocationResponse
+    {
+        public bool Success { get; set; }
+
+        [JsonPropertyName("country_code")]
+        public string? CountryCode { get; set; }
     }
+}
 }

@@ -39,8 +39,8 @@ namespace BookingApi.Controllers
                 var connectionString = _configuration.GetConnectionString("DefaultConnection");
                 await using var connection = new SqlConnection(connectionString);
                 await using var command = new SqlCommand("dbo.GetProjects", connection);
-                command.CommandType = CommandType.StoredProcedure; 
-                command.Parameters.Add("@CountryCode", SqlDbType.NVarChar).Value = countryCode;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@CountryCode", SqlDbType.NVarChar, 2).Value = countryCode;
                 await connection.OpenAsync();
                 await using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
@@ -48,7 +48,7 @@ namespace BookingApi.Controllers
                     var project = new ProjectResponse
                     {
                         Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                        name = reader.GetString(reader.GetOrdinal("Name")),
+                        name = reader.GetString(reader.GetOrdinal("Name")) ,
                         ImageUrl = reader.IsDBNull( reader.GetOrdinal("ImageUrl")) ? string.Empty  : reader.GetString(reader.GetOrdinal("ImageUrl"))
                     };
                     projects.Add(project);
@@ -83,7 +83,7 @@ namespace BookingApi.Controllers
                     : await _geoService.GetCountryCodeAsync(ip);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add( "@ProjectId", SqlDbType.Int).Value = projectId;
-                command.Parameters.Add("@CountryCode", SqlDbType.NVarChar).Value = countryCode;
+                command.Parameters.Add("@CountryCode", SqlDbType.NVarChar, 2).Value = countryCode;
                 await connection.OpenAsync();
                 await using var reader =
                     await command.ExecuteReaderAsync();
@@ -137,7 +137,7 @@ namespace BookingApi.Controllers
                 await using var command = new SqlCommand("dbo.GetSpecialitiesByClinicId", connection);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.Add("@ClinicId", SqlDbType.Int).Value = ClinicID;
-                command.Parameters.Add("@CountryCode", SqlDbType.NVarChar).Value = countryCode;
+                command.Parameters.Add("@CountryCode", SqlDbType.NVarChar, 2).Value = countryCode;
                 await connection.OpenAsync();
                 await using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())

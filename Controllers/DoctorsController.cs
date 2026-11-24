@@ -13,11 +13,11 @@ public class DoctorsController : Controller
     private readonly IConfiguration _configuration;
     private readonly ILogger<PatientsController> _logger;
     private readonly IpGeolocationService _geoService;
-    public DoctorsController(IConfiguration configuration, ILogger<PatientsController> logger, IpGeolocationService _geoService)
+    public DoctorsController(IConfiguration configuration, ILogger<PatientsController> logger, IpGeolocationService  geoService)
     {
         _configuration = configuration;
         _logger = logger;
-        _geoService = _geoService;
+        _geoService = geoService;
     }
 
     [HttpGet("get/{doctorID:long}")]
@@ -35,7 +35,7 @@ public class DoctorsController : Controller
             await using var command = new SqlCommand("dbo.GetDoctorDeatils", connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@DoctorID", SqlDbType.BigInt).Value = doctorID;
-            command.Parameters.Add("@CountryCode", SqlDbType.NVarChar).Value = countryCode;
+            command.Parameters.Add("@CountryCode", SqlDbType.NVarChar, 2).Value = countryCode;
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
@@ -84,7 +84,7 @@ public class DoctorsController : Controller
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add("@ClinicID", SqlDbType.BigInt).Value = cl;
             command.Parameters.Add("@SpID", SqlDbType.BigInt).Value = sp;
-            command.Parameters.Add("@CountryCode", SqlDbType.NVarChar).Value = countryCode;
+            command.Parameters.Add("@CountryCode", SqlDbType.NVarChar, 2).Value = countryCode;
             await connection.OpenAsync();
             await using var reader = await command.ExecuteReaderAsync();
             while (await reader.ReadAsync())
@@ -93,10 +93,7 @@ public class DoctorsController : Controller
                 {
                     Id = reader.GetInt64(reader.GetOrdinal("Id")),
                     firstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                    lastName = reader.IsDBNull(reader.GetOrdinal("LastName"))
-                        ? null
-                        : reader.GetString(reader.GetOrdinal("LastName")),
-
+                    lastName = reader.IsDBNull(reader.GetOrdinal("LastName")) ? null : reader.GetString(reader.GetOrdinal("LastName")),
                     SpecialtyName = reader.GetString(reader.GetOrdinal("SpecialtyName")),
                     clinicName = reader.GetString(reader.GetOrdinal("CLinicName")),
 
